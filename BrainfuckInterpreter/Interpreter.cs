@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace BrainfuckInterpreter
 {
@@ -31,14 +32,16 @@ namespace BrainfuckInterpreter
 
         public void ParseAndExecute(byte[] program)
         {
-            foreach (var programElement in program)
-            {
-                var instruction = Tokenize(programElement);
-                if (instruction.HasValue)
-                {
-                    Execute(instruction.Value);
-                }
-            }
+            var brainfuckInstructions = TokenizeProgram(program);
+            Execute(brainfuckInstructions);
+        }
+
+        private IEnumerable<BrainfuckInstruction> TokenizeProgram(IEnumerable<byte> program)
+        {
+            return program
+                .Select(Tokenize)
+                .Where(instruction => instruction.HasValue)
+                .Select(instruction => instruction.Value);
         }
 
         private BrainfuckInstruction? Tokenize(byte programElement)
@@ -46,6 +49,14 @@ namespace BrainfuckInterpreter
             BrainfuckInstruction token;
             var validInstruction = _programElementToBrainfuckInstructionMapping.TryGetValue((char) programElement, out token);
             return validInstruction ? token : (BrainfuckInstruction?) null;
+        }
+
+        private void Execute(IEnumerable<BrainfuckInstruction> brainfuckInstructions)
+        {
+            foreach (var brainfuckInstruction in brainfuckInstructions)
+            {
+                Execute(brainfuckInstruction);
+            }
         }
 
         private void Execute(BrainfuckInstruction instruction)

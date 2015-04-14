@@ -38,10 +38,7 @@ namespace BrainfuckInterpreter
 
         private IEnumerable<BrainfuckInstruction> TokenizeProgram(IEnumerable<byte> program)
         {
-            return program
-                .Select(Tokenize)
-                .Where(instruction => instruction.HasValue)
-                .Select(instruction => instruction.Value);
+            return program.Select(Tokenize).OfType<BrainfuckInstruction>();
         }
 
         private BrainfuckInstruction? Tokenize(byte programElement)

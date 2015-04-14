@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace BrainfuckInterpreter
@@ -10,7 +11,7 @@ namespace BrainfuckInterpreter
             var programFile = args.First();
             var program = File.ReadAllBytes(programFile);
 
-            new Interpreter().ParseAndExecute(program);
+            new Interpreter(Console.Out).ParseAndExecute(program);
         }
     }
 }

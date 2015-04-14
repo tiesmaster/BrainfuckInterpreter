@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainfuckInterpreter", "BrainfuckInterpreter\BrainfuckInterpreter.csproj", "{DA93296B-CC2A-4721-95D1-48D07064B37F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrainfuckInterpreter.IntegrationTests", "BrainfuckInterpreter.IntegrationTests\BrainfuckInterpreter.IntegrationTests.csproj", "{459C7BCA-7C53-4424-B16D-E41BFE323D02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DA93296B-CC2A-4721-95D1-48D07064B37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA93296B-CC2A-4721-95D1-48D07064B37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA93296B-CC2A-4721-95D1-48D07064B37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{459C7BCA-7C53-4424-B16D-E41BFE323D02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{459C7BCA-7C53-4424-B16D-E41BFE323D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{459C7BCA-7C53-4424-B16D-E41BFE323D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{459C7BCA-7C53-4424-B16D-E41BFE323D02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

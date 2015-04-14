@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BrainfuckInterpreter
 {
-    internal class Interpreter
+    public class Interpreter
     {
+        private readonly TextWriter _outputWriter;
+
         private readonly Dictionary<char, BrainfuckInstruction> _programElementToBrainfuckInstructionMapping =
             new Dictionary<char, BrainfuckInstruction>
             {
@@ -20,6 +23,11 @@ namespace BrainfuckInterpreter
 
         private readonly byte[] _data = new byte[30000];
         private int _dataPointer;
+
+        public Interpreter(TextWriter outputWriter)
+        {
+            _outputWriter = outputWriter;
+        }
 
         public void ParseAndExecute(byte[] program)
         {
@@ -57,7 +65,7 @@ namespace BrainfuckInterpreter
                     _data[_dataPointer]--;
                     break;
                 case BrainfuckInstruction.OutputData:
-                    Console.Write((char)_data[_dataPointer]);
+                    _outputWriter.Write((char)_data[_dataPointer]);
                     break;
                 case BrainfuckInstruction.InputData:
                     _data[_dataPointer] = (byte) Console.Read();

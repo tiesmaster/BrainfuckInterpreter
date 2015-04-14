@@ -42,13 +42,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrainfuckInstruction.cs" />
+    <Compile Include="Instructions\DecrementDataInstruction.cs" />
+    <Compile Include="Instructions\DecrementDataPointerInstruction.cs" />
+    <Compile Include="Instructions\IncrementDataInstruction.cs" />
+    <Compile Include="Instructions\IncrementDataPointerInstruction.cs" />
+    <Compile Include="Instructions\InputDataInstruction.cs" />
+    <Compile Include="Instructions\Instruction.cs" />
     <Compile Include="Interpreter.cs" />
+    <Compile Include="Instructions\LoopInstruction.cs" />
+    <Compile Include="Instructions\OutputDataInstruction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VirtualMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using BrainfuckInterpreter.Instructions;
+
 namespace BrainfuckInterpreter
 {
     public class Interpreter
@@ -22,8 +24,7 @@ namespace BrainfuckInterpreter
                 {']', BrainfuckInstruction.EndLoop}
             };
 
-        private readonly byte[] _data = new byte[30000];
-        private int _dataPointer;
+        private readonly BrainfuckInstruction[] _loopInstructions = new[] {BrainfuckInstruction.StartLoop, BrainfuckInstruction.EndLoop};
 
         public Interpreter(TextWriter outputWriter)
         {
@@ -33,7 +34,8 @@ namespace BrainfuckInterpreter
         public void ParseAndExecute(byte[] program)
         {
             var brainfuckInstructions = TokenizeProgram(program);
-            Execute(brainfuckInstructions);
+            var tree = Parse(brainfuckInstructions);
+            Execute(tree);
         }
 
         private IEnumerable<BrainfuckInstruction> TokenizeProgram(IEnumerable<byte> program)
@@ -48,41 +50,60 @@ namespace BrainfuckInterpreter
             return validInstruction ? token : (BrainfuckInstruction?) null;
         }
 
-        private void Execute(IEnumerable<BrainfuckInstruction> brainfuckInstructions)
+        private IEnumerable<Instruction> Parse(IEnumerable<BrainfuckInstruction> brainfuckInstructions)
         {
+            var instructions = new List<Instruction>();
+            var loopInstruction = default(LoopInstruction);
             foreach (var brainfuckInstruction in brainfuckInstructions)
             {
-                Execute(brainfuckInstruction);
+                if (!_loopInstructions.Contains(brainfuckInstruction) && loopInstruction == null)
+                {
+                    instructions.Add(CreateInstruction(brainfuckInstruction));
+                }
+                else
+                {
+                    if (brainfuckInstruction == BrainfuckInstruction.StartLoop)
+                    {
+                        loopInstruction = new LoopInstruction();
+                    }
+                    else if (brainfuckInstruction == BrainfuckInstruction.EndLoop)
+                    {
+                        instructions.Add(loopInstruction);
+                        loopInstruction = null;
+                    }
+                    else
+                    {
+                        loopInstruction.Add(CreateInstruction(brainfuckInstruction));
+                    }
+                }
             }
+            return instructions;
         }
 
-        private void Execute(BrainfuckInstruction instruction)
+        private Instruction CreateInstruction(BrainfuckInstruction brainfuckInstruction)
         {
-            switch (instruction)
+            switch (brainfuckInstruction)
             {
                 case BrainfuckInstruction.IncrementDataPointer:
-                    _dataPointer++;
-                    break;
+                    return new IncrementDataPointerInstruction();
                 case BrainfuckInstruction.DecrementDataPointer:
-                    _dataPointer--;
-                    break;
+                    return new DecrementDataPointerInstruction();
                 case BrainfuckInstruction.IncrementData:
-                    _data[_dataPointer]++;
-                    break;
+                    return new IncrementDataInstruction();
                 case BrainfuckInstruction.DecrementData:
-                    _data[_dataPointer]--;
-                    break;
+                    return new DecrementDataInstruction();
                 case BrainfuckInstruction.OutputData:
-                    _outputWriter.Write((char)_data[_dataPointer]);
-                    break;
+                    return new OutputDataInstruction();
                 case BrainfuckInstruction.InputData:
-                    _data[_dataPointer] = (byte) Console.Read();
-                    break;
-                case BrainfuckInstruction.StartLoop:
-                    throw new NotImplementedException();
-                case BrainfuckInstruction.EndLoop:
-                    throw new NotImplementedException();
+                    return new InputDataInstruction();
             }
+            throw new NotSupportedException();
+        }
+
+        private void Execute(IEnumerable<Instruction> syntaxTree)
+        {
+            var vm = new VirtualMachine(_outputWriter);
+            vm.Execute(syntaxTree);
         }
     }
 }

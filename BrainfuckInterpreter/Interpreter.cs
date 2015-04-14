@@ -24,7 +24,11 @@ namespace BrainfuckInterpreter
                 {']', BrainfuckInstruction.EndLoop}
             };
 
-        private readonly BrainfuckInstruction[] _loopInstructions = new[] {BrainfuckInstruction.StartLoop, BrainfuckInstruction.EndLoop};
+        private readonly BrainfuckInstruction[] _loopInstructions =
+        {
+            BrainfuckInstruction.StartLoop,
+            BrainfuckInstruction.EndLoop
+        };
 
         public Interpreter(TextWriter outputWriter)
         {
@@ -49,6 +53,8 @@ namespace BrainfuckInterpreter
             var validInstruction = _programElementToBrainfuckInstructionMapping.TryGetValue((char) programElement, out token);
             return validInstruction ? token : (BrainfuckInstruction?) null;
         }
+
+        // ReSharper disable once PossibleNullReferenceException
 
         private IEnumerable<Instruction> Parse(IEnumerable<BrainfuckInstruction> brainfuckInstructions)
         {

@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="AlphabetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WhitespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

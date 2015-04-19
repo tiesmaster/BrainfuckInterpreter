@@ -4,7 +4,7 @@ namespace BrainfuckInterpreter.Instructions
 {
     internal class LoopInstruction : Instruction
     {
-        private readonly IList<Instruction> _bodyInstructions = new List<Instruction>();
+        private readonly List<Instruction> _bodyInstructions = new List<Instruction>();
 
         public void Add(Instruction instruction)
         {
@@ -17,6 +17,11 @@ namespace BrainfuckInterpreter.Instructions
             {
                 vm.Execute(_bodyInstructions);
             }
+        }
+
+        public void AddRange(IEnumerable<Instruction> instructions)
+        {
+            _bodyInstructions.AddRange(instructions);
         }
     }
 }

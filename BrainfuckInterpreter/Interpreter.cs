@@ -58,32 +58,31 @@ namespace BrainfuckInterpreter
 
         private IEnumerable<Instruction> Parse(IEnumerable<BrainfuckInstruction> brainfuckInstructions)
         {
-            var instructions = new List<Instruction>();
-            var loopInstruction = default(LoopInstruction);
-            foreach (var brainfuckInstruction in brainfuckInstructions)
+            var cursor = brainfuckInstructions.GetEnumerator();
+
+            var instructions = Parse(cursor);
+
+            cursor.Dispose();
+            return instructions;
+        }
+
+        private IEnumerable<Instruction> Parse(IEnumerator<BrainfuckInstruction> cursor)
+        {
+            while (cursor.MoveNext())
             {
-                if (!_loopInstructions.Contains(brainfuckInstruction) && loopInstruction == null)
+                var currentBrainfuckInstruction = cursor.Current;
+
+                if (!_loopInstructions.Contains(currentBrainfuckInstruction))
                 {
-                    instructions.Add(CreateInstruction(brainfuckInstruction));
+                    yield return CreateInstruction(currentBrainfuckInstruction);
                 }
-                else
+                else if (currentBrainfuckInstruction == BrainfuckInstruction.StartLoop)
                 {
-                    if (brainfuckInstruction == BrainfuckInstruction.StartLoop)
-                    {
-                        loopInstruction = new LoopInstruction();
-                    }
-                    else if (brainfuckInstruction == BrainfuckInstruction.EndLoop)
-                    {
-                        instructions.Add(loopInstruction);
-                        loopInstruction = null;
-                    }
-                    else
-                    {
-                        loopInstruction.Add(CreateInstruction(brainfuckInstruction));
-                    }
+                    var loopInstruction = new LoopInstruction();
+                    loopInstruction.AddRange(Parse(cursor));
+                    yield return loopInstruction;
                 }
             }
-            return instructions;
         }
 
         private Instruction CreateInstruction(BrainfuckInstruction brainfuckInstruction)

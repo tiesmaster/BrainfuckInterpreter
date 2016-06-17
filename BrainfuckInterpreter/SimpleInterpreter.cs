@@ -22,7 +22,7 @@ namespace BrainfuckInterpreter
 
             while(instructionPointer < programLength)
             {
-                char instruction = '0'; //program[instructionPointer];
+                char instruction = (char)program[instructionPointer];
                 switch (instruction)
                 {
                     case '<':
@@ -44,14 +44,57 @@ namespace BrainfuckInterpreter
                         _outputWriter.Write((char)data[dataPointer]);
                         break;
                     case '[':
-                        // TODO: jump forward, if data[dataPointer] == 0
+                        if(data[dataPointer] == 0)
+                        {
+                            var unmatchedOpenBraces = 1;
+                            do
+                            {
+                                instructionPointer++;
+                                instruction = (char)program[instructionPointer];
+
+                                if (instruction == '[')
+                                {
+                                    unmatchedOpenBraces++;
+                                }
+
+                                if (instruction == ']')
+                                {
+                                    unmatchedOpenBraces--;
+                                }
+
+                            } while (instruction != ']' && unmatchedOpenBraces != 0);
+                        }
+
                         break;
                     case ']':
-                        // TODO: jump backwards, if data[dataPointer] != 0
+                        if(data[dataPointer] != 0)
+                        {
+                            var unmatchedClosingBraces = 1;
+                            do
+                            {
+                                instructionPointer--;
+                                instruction = (char)program[instructionPointer];
+
+                                if (instruction == ']')
+                                {
+                                    unmatchedClosingBraces++;
+                                }
+
+                                if (instruction == '[')
+                                {
+                                    unmatchedClosingBraces--;
+                                }
+
+                            } while (instruction != '[' && unmatchedClosingBraces != 0);
+                        }
+
                         break;
 
+                    default:
                         // rest is a no op
+                        break;
                 }
+
                 instructionPointer++;
             }
 

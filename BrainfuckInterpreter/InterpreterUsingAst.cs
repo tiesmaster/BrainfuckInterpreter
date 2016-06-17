@@ -7,6 +7,10 @@ using BrainfuckInterpreter.Instructions;
 
 namespace BrainfuckInterpreter
 {
+    /// <summary>
+    /// This is a brainfuck interpreter, that first compiles to an AST, and then executes that (using the
+    /// <see cref="VirtualMachine"/> class.
+    /// </summary>
     public class InterpreterUsingAst
     {
         private readonly TextWriter _outputWriter;

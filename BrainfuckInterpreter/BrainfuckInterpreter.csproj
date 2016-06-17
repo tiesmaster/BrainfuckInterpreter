@@ -53,6 +53,7 @@
     <Compile Include="Instructions\OutputDataInstruction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleInterpreter.cs" />
     <Compile Include="VirtualMachine.cs" />
   </ItemGroup>
   <ItemGroup>

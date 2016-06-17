@@ -11,7 +11,7 @@ namespace BrainfuckInterpreter
             var programFile = args.First();
             var program = File.ReadAllBytes(programFile);
 
-            new Interpreter(Console.Out).ParseAndExecute(program);
+            new InterpreterUsingAst(Console.Out).ParseAndExecute(program);
         }
     }
 }

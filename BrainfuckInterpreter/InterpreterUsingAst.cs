@@ -7,7 +7,7 @@ using BrainfuckInterpreter.Instructions;
 
 namespace BrainfuckInterpreter
 {
-    public class Interpreter
+    public class InterpreterUsingAst
     {
         private readonly TextWriter _outputWriter;
 
@@ -30,7 +30,7 @@ namespace BrainfuckInterpreter
             BrainfuckInstruction.EndLoop
         };
 
-        public Interpreter(TextWriter outputWriter)
+        public InterpreterUsingAst(TextWriter outputWriter)
         {
             _outputWriter = outputWriter;
         }

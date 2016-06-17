@@ -48,7 +48,7 @@
     <Compile Include="Instructions\IncrementDataPointerInstruction.cs" />
     <Compile Include="Instructions\InputDataInstruction.cs" />
     <Compile Include="Instructions\Instruction.cs" />
-    <Compile Include="Interpreter.cs" />
+    <Compile Include="InterpreterUsingAst.cs" />
     <Compile Include="Instructions\LoopInstruction.cs" />
     <Compile Include="Instructions\OutputDataInstruction.cs" />
     <Compile Include="Program.cs" />

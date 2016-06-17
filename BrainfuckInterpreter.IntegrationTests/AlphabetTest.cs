@@ -23,7 +23,7 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             var outputStream = new MemoryStream();
             var outputWriter = new StreamWriter(outputStream);
-            var sut = new Interpreter(outputWriter);
+            var sut = new InterpreterUsingAst(outputWriter);
 
             // act
             sut.ParseAndExecute(program);
@@ -56,7 +56,7 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             var outputStream = new MemoryStream();
             var outputWriter = new StreamWriter(outputStream);
-            var sut = new Interpreter(outputWriter);
+            var sut = new InterpreterUsingAst(outputWriter);
 
             // act
             sut.ParseAndExecute(program);

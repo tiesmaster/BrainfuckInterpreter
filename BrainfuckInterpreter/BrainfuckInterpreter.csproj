@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrainfuckInstruction.cs" />
+    <Compile Include="IBrainfuckInterpreter.cs" />
     <Compile Include="Instructions\DecrementDataInstruction.cs" />
     <Compile Include="Instructions\DecrementDataPointerInstruction.cs" />
     <Compile Include="Instructions\IncrementDataInstruction.cs" />

@@ -11,7 +11,7 @@ namespace BrainfuckInterpreter
     /// This is a brainfuck interpreter, that first compiles to an AST, and then executes that (using the
     /// <see cref="VirtualMachine"/> class.
     /// </summary>
-    public class InterpreterUsingAst
+    public class InterpreterUsingAst : IBrainfuckInterpreter
     {
         private readonly TextWriter _outputWriter;
 

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace BrainfuckInterpreter
 {
-    public class SimpleInterpreter
+    public class SimpleInterpreter : IBrainfuckInterpreter
     {
         private readonly TextWriter _outputWriter;
 

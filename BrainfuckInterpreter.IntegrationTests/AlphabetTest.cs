@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 using FluentAssertions;
@@ -9,8 +10,10 @@ namespace BrainfuckInterpreter.IntegrationTests
 {
     public class AlphabetTest
     {
-        [Fact]
-        public void SimpleAlphabet()
+        [Theory]
+        [InlineData(typeof(InterpreterUsingAst))]
+        [InlineData(typeof(SimpleInterpreter))]
+        public void SimpleAlphabet(Type interpreterType)
         {
             // arrange
             const string programText =
@@ -23,7 +26,7 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             var outputStream = new MemoryStream();
             var outputWriter = new StreamWriter(outputStream);
-            var sut = new InterpreterUsingAst(outputWriter);
+            var sut = CreateSut(interpreterType, outputWriter);
 
             // act
             sut.ParseAndExecute(program);
@@ -34,8 +37,10 @@ namespace BrainfuckInterpreter.IntegrationTests
             Encoding.ASCII.GetString(outputStream.ToArray()).Should().Be("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         }
 
-        [Fact]
-        public void Alphabet()
+        [Theory]
+        [InlineData(typeof(InterpreterUsingAst))]
+        [InlineData(typeof(SimpleInterpreter))]
+        public void Alphabet(Type interpreterType)
         {
             // arrange
             const string programText =
@@ -56,7 +61,7 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             var outputStream = new MemoryStream();
             var outputWriter = new StreamWriter(outputStream);
-            var sut = new InterpreterUsingAst(outputWriter);
+            var sut = CreateSut(interpreterType, outputWriter);
 
             // act
             sut.ParseAndExecute(program);
@@ -65,6 +70,21 @@ namespace BrainfuckInterpreter.IntegrationTests
             outputWriter.Flush();
             outputStream.Position = 0;
             Encoding.ASCII.GetString(outputStream.ToArray()).Should().Be("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        }
+
+        private IBrainfuckInterpreter CreateSut(Type interpreterType, TextWriter outputWriter)
+        {
+            if(interpreterType == typeof(InterpreterUsingAst))
+            {
+                return new InterpreterUsingAst(outputWriter);
+            }
+
+            if(interpreterType == typeof(SimpleInterpreter))
+            {
+                return new SimpleInterpreter(outputWriter);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

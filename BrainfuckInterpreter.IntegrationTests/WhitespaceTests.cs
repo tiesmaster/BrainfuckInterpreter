@@ -10,8 +10,10 @@ namespace BrainfuckInterpreter.IntegrationTests
 {
     public class WhitespaceTests
     {
-        [Fact]
-        public void ProgramData_WithWhitespace_ShouldNotBang()
+        [Theory]
+        [InlineData(typeof(InterpreterUsingAst))]
+        [InlineData(typeof(SimpleInterpreter))]
+        public void ProgramData_WithWhitespace_ShouldNotBang(Type interpreterType)
         {
             // arrange
             const string programText = "hoi";
@@ -20,7 +22,7 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             var outputStream = new MemoryStream();
             var outputWriter = new StreamWriter(outputStream);
-            var sut = new InterpreterUsingAst(outputWriter);
+            var sut = CreateSut(interpreterType, outputWriter);
 
             // act
             Action act = () =>
@@ -28,6 +30,21 @@ namespace BrainfuckInterpreter.IntegrationTests
 
             // assert
             act.ShouldNotThrow();
+        }
+
+        private IBrainfuckInterpreter CreateSut(Type interpreterType, TextWriter outputWriter)
+        {
+            if (interpreterType == typeof(InterpreterUsingAst))
+            {
+                return new InterpreterUsingAst(outputWriter);
+            }
+
+            if (interpreterType == typeof(SimpleInterpreter))
+            {
+                return new SimpleInterpreter(outputWriter);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
